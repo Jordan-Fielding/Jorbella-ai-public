@@ -1,6 +1,6 @@
 # Azure AI ChatBot
 
-> **Public Distribution Repository** - This repository contains releases and documentation for Azure AI ChatBot. The application automatically checks this repository for updates.
+> **Private Development Repository** - This is the private development repository. Public releases are published to [centra-ai-public](https://git.centra.au/jordanf/centra-ai-public).
 
 A modern, feature-rich Windows desktop application for interacting with Azure OpenAI services. Built with WPF and .NET 9.0, featuring a beautiful gradient UI, customizable themes, and secure credential storage.
 
@@ -81,19 +81,9 @@ A modern, feature-rich Windows desktop application for interacting with Azure Op
 
 ## Installation
 
-### Option 1: Installer (Recommended)
+**For end users:** Download the latest installer from the [Public Repository Releases](https://git.centra.au/jordanf/centra-ai-public/-/releases)
 
-1. Download the latest installer from [Releases](https://git.centra.au/jordanf/centra-ai-public/-/releases)
-2. Run `AzureAIChatBot-Setup-v1.0.x.exe`
-3. Follow the setup wizard
-4. Launch from Start Menu or Desktop
-5. App will automatically check for updates
-
-### Option 2: Portable
-
-1. Download and extract the ZIP file
-2. Run `AzureAIChatBot.exe`
-3. Configure settings on first launch
+**For developers:** See [Building from Source](#building-from-source) below.
 
 ## Configuration
 
@@ -138,10 +128,11 @@ To use this application, you need an Azure OpenAI resource:
 
 ### Auto-Updates
 
-1. App checks for updates every 5 minutes automatically
+The app automatically checks the **public repository** for updates:
+1. Checks [centra-ai-public](https://git.centra.au/jordanf/centra-ai-public) every 5 minutes
 2. Click the **🔄** icon in title bar to check manually
-3. When an update is available, you'll see a notification
-4. Click **Yes** to open the download page in your browser
+3. When an update is available, you'll see a notification with release notes
+4. Click **Yes** to open the public release page in your browser
 5. Download and run the new installer
 
 ### Keyboard Shortcuts
@@ -151,51 +142,93 @@ To use this application, you need an Azure OpenAI resource:
 - **Esc**: Close detail window
 - **Alt+F4**: Close application
 
-## Download
+## Building from Source
 
-Get the latest version from the [Releases](https://git.centra.au/jordanf/centra-ai-public/-/releases) page.
+### Prerequisites
 
-Each release includes:
-- Windows installer (`.exe`) for easy installation
-- Release notes with new features and fixes
-- Direct download links
+- Visual Studio 2022 or later
+- .NET 9.0 SDK
+- Windows 10 SDK
 
-## How Updates Work
-
-### Auto-Update System
-
-The application includes a built-in update checker that:
-- **Automatically checks** this repository for new releases every 5 minutes
-- **Notifies you** when a new version is available with release notes preview
-- **One-click download** - opens your browser to the release page
-- **Manual check** - click the 🔄 icon in the title bar anytime
-
-### Update Process
-
-1. App checks GitLab Releases API: `https://git.centra.au/api/v4/projects/jordanf%2Fcentra-ai-public/releases`
-2. Compares current version with latest release tag
-3. Shows notification if newer version available
-4. Click "Yes" to open release page in browser
-5. Download and run the new installer
-
-### For Developers: Publishing Releases
-
-Releases are published to this repository using the `publish-release.ps1` script from the private development repository:
+### Build Steps
 
 ```powershell
+# Clone the repository
+git clone <repository-url>
+cd "AI Bot"
+
+# Restore dependencies
+dotnet restore
+
+# Build for x64
+dotnet publish -c Release -r win-x64 --self-contained false
+
+# Build for ARM64
+dotnet publish -c Release -r win-arm64 --self-contained false
+
+# Create installer (requires Inno Setup)
+& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+```
+
+### Output Locations
+
+- **x64 Build**: `bin\Release\net9.0-windows\win-x64\publish\`
+- **ARM64 Build**: `bin\Release\net9.0-windows\win-arm64\publish\`
+- **Installer**: `installer_output\AzureAIChatBot-Setup-v1.0.x.exe`
+
+## Release Process
+
+### Overview
+
+Releases are published to the **public repository** ([centra-ai-public](https://git.centra.au/jordanf/centra-ai-public)) where users download them. The app's auto-update system checks the public repo for new versions.
+
+### Creating a New Release
+
+#### 1. Update Version Numbers
+
+Update the version in these files:
+- `AzureAIChatBot.csproj` - `<Version>`, `<FileVersion>`, `<AssemblyVersion>`
+- `installer.iss` - `#define MyAppVersion`
+
+#### 2. Build the Application
+
+```powershell
+# Build for both architectures
+dotnet publish -c Release -r win-x64 --self-contained false
+dotnet publish -c Release -r win-arm64 --self-contained false
+```
+
+#### 3. Create the Installer
+
+```powershell
+# Run Inno Setup to create the installer
+& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+```
+
+This creates: `installer_output\AzureAIChatBot-Setup-v1.x.x.exe`
+
+#### 4. Publish to Public Repository
+
+```powershell
+# Use the publish script to push to public repo
 .\publish-release.ps1 -Version "1.2.0"
 ```
 
-This script:
-1. Copies the installer to `releases/` folder
-2. Updates version.txt
-3. Commits and pushes to this repository
-4. Creates a Git tag
-5. Prompts you to create a GitLab Release
+The script automatically:
+- ✅ Clones/updates the public repository
+- ✅ Copies the installer to `releases/` folder
+- ✅ Creates/updates `version.txt`
+- ✅ Copies the README
+- ✅ Commits and pushes to public repo
+- ✅ Creates a Git tag (e.g., `v1.2.0`)
+- ✅ Provides instructions for creating the GitLab Release
 
-**Creating the GitLab Release:**
+#### 5. Create GitLab Release
+
+After running the script, manually create the release:
+
 1. Go to: `https://git.centra.au/jordanf/centra-ai-public/-/releases/new`
-2. **Tag name**: `v1.2.0` (must match the version)
+2. **Tag name**: `v1.2.0` (select the tag created by the script)
 3. **Release title**: `Version 1.2.0`
 4. **Description**: Add release notes and changelog
 5. **Add asset link**:
@@ -203,6 +236,39 @@ This script:
    - **Link title**: `AzureAIChatBot-Setup-v1.2.0.exe`
    - **Link type**: `Package`
 6. Click **Create release**
+
+#### 6. Commit to Private Repo (Optional)
+
+```powershell
+# Commit version changes to private repo
+git add AzureAIChatBot.csproj installer.iss
+git commit -m "Bump version to 1.2.0"
+git push origin main
+```
+
+### Auto-Update System
+
+The app checks the **public repository** for updates:
+- **API Endpoint**: `https://git.centra.au/api/v4/projects/jordanf%2Fcentra-ai-public/releases`
+- **Check Interval**: Every 5 minutes
+- **Version Comparison**: Compares current version with latest release tag
+- **User Notification**: Shows release notes preview when update available
+- **Download**: Opens browser to public release page
+- **Authentication**: Uses obfuscated GitLab token with `read_api` scope
+
+### Repository Structure
+
+```
+centra-ai/              # Private development repo (this repo)
+├── Source code
+├── installer_output/   # Build output (gitignored)
+└── publish-release.ps1 # Script to publish to public repo
+
+centra-ai-public/       # Public distribution repo
+├── releases/           # Installer executables
+├── version.txt         # Latest version number
+└── README.md           # Public documentation
+```
 
 ## Project Structure
 
@@ -276,14 +342,29 @@ AI Bot/
 - Reset to default theme and try again
 - Check settings file isn't corrupted
 
-## Repository Structure
+## Development
 
-This is the **public distribution repository**. It contains:
-- `/releases/` - Installer executables for each version
-- `README.md` - This documentation
-- `version.txt` - Latest version number (used by update checker)
+### Local Setup
 
-The source code is maintained in a separate private repository.
+1. Clone this repository
+2. Open `AzureAIChatBot.sln` in Visual Studio 2022
+3. Restore NuGet packages
+4. Build and run (F5)
+
+### Testing Updates
+
+To test the auto-update system:
+1. Build and install a version with a lower version number
+2. Create a release in the public repo with a higher version
+3. Run the app and wait for update notification (or click 🔄)
+
+### Contributing
+
+This is a private development repository. For contributions:
+1. Create a feature branch
+2. Make your changes
+3. Test thoroughly
+4. Submit a merge request
 
 ## License
 
