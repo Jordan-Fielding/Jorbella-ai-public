@@ -248,13 +248,21 @@ git push origin main
 
 ### Auto-Update System
 
-The app checks the **public repository** for updates:
-- **API Endpoint**: `https://git.centra.au/api/v4/projects/jordanf%2Fcentra-ai-public/releases`
-- **Check Interval**: Every 5 minutes
-- **Version Comparison**: Compares current version with latest release tag
-- **User Notification**: Shows release notes preview when update available
-- **Download**: Opens browser to public release page
-- **Authentication**: Uses obfuscated GitLab token with `read_api` scope
+The app checks the **public repository** for updates using a simple version file:
+- **Version File**: `https://git.centra.au/jordanf/centra-ai-public/-/raw/main/version.txt`
+- **Check Interval**: Every 5 minutes automatically
+- **Manual Check**: Click the 🔄 icon in the title bar
+- **Version Comparison**: Compares current version with version in `version.txt`
+- **User Notification**: Shows popup when newer version is available
+- **Download**: Opens browser to public releases page
+- **No Authentication**: Public file, no token required
+
+**How it works:**
+1. App fetches `version.txt` from public repo
+2. Compares version numbers (e.g., `1.1.0` vs `1.0.9`)
+3. If newer version found, shows update notification
+4. User clicks "Yes" to open releases page in browser
+5. User downloads and runs the new installer
 
 ### Repository Structure
 
