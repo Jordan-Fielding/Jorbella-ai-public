@@ -1,6 +1,6 @@
 # Azure AI ChatBot
 
-> **Private Development Repository** - This is the private development repository. Public releases are published to [centra-ai-public](https://git.centra.au/jordanf/centra-ai-public).
+> **Private Development Repository** - This is the private development repository. Public releases are published to [Jorbella-ai-public](https://github.com/Jordan-Fielding/Jorbella-ai-public).
 
 A modern, feature-rich Windows desktop application for interacting with Azure OpenAI services. Built with WPF and .NET 9.0, featuring a beautiful gradient UI, customizable themes, and secure credential storage.
 
@@ -26,7 +26,7 @@ A modern, feature-rich Windows desktop application for interacting with Azure Op
   - Purple Dream - Rich purple tones
   - Forest Green - Natural green palette
   - Sunset Orange - Warm orange hues
-  - Centra - Dark with bright green accents
+  - Jorbella - Dark with bright green accents
 - **Custom Theme Editor** with live color preview
 - **Consistent theme colors** across all UI elements
 - 7 customizable color elements:
@@ -81,7 +81,7 @@ A modern, feature-rich Windows desktop application for interacting with Azure Op
 
 ## Installation
 
-**For end users:** Download the latest installer from the [Public Repository Releases](https://git.centra.au/jordanf/centra-ai-public/-/releases)
+**For end users:** Download the latest installer from the [Public Repository Releases](https://github.com/Jordan-Fielding/Jorbella-ai-public/releases)
 
 **For developers:** See [Building from Source](#building-from-source) below.
 
@@ -129,7 +129,7 @@ To use this application, you need an Azure OpenAI resource:
 ### Auto-Updates
 
 The app automatically checks the **public repository** for updates:
-1. Checks [centra-ai-public](https://git.centra.au/jordanf/centra-ai-public) every 5 minutes
+1. Checks [Jorbella-ai-public](https://github.com/Jordan-Fielding/Jorbella-ai-public) every 5 minutes
 2. Click the **🔄** icon in title bar to check manually
 3. When an update is available, you'll see a notification with release notes
 4. Click **Yes** to open the public release page in your browser
@@ -180,7 +180,7 @@ dotnet publish -c Release -r win-arm64 --self-contained false
 
 ### Overview
 
-Releases are published to the **public repository** ([centra-ai-public](https://git.centra.au/jordanf/centra-ai-public)) where users download them. The app's auto-update system checks the public repo for new versions.
+Releases are published to the **public repository** ([Jorbella-ai-public](https://github.com/Jordan-Fielding/Jorbella-ai-public)) where users download them. The app's auto-update system checks the public repo for new versions.
 
 ### Creating a New Release
 
@@ -227,12 +227,12 @@ The script automatically:
 
 After running the script, manually create the release:
 
-1. Go to: `https://git.centra.au/jordanf/centra-ai-public/-/releases/new`
+1. Go to: `https://github.com/Jordan-Fielding/Jorbella-ai-public/releases/new`
 2. **Tag name**: `v1.2.0` (select the tag created by the script)
 3. **Release title**: `Version 1.2.0`
 4. **Description**: Add release notes and changelog
 5. **Add asset link**:
-   - **URL**: `https://git.centra.au/jordanf/centra-ai-public/-/raw/main/releases/AzureAIChatBot-Setup-v1.2.0.exe`
+   - **URL**: `https://raw.githubusercontent.com/Jordan-Fielding/Jorbella-ai-public/main/releases/AzureAIChatBot-Setup-v1.2.0.exe`
    - **Link title**: `AzureAIChatBot-Setup-v1.2.0.exe`
    - **Link type**: `Package`
 6. Click **Create release**
@@ -249,7 +249,7 @@ git push origin main
 ### Auto-Update System
 
 The app checks the **public repository** for updates using a simple version file:
-- **Version File**: `https://git.centra.au/jordanf/centra-ai-public/-/raw/main/version.txt`
+- **Version File**: `https://raw.githubusercontent.com/Jordan-Fielding/Jorbella-ai-public/main/version.txt`
 - **Check Interval**: Every 5 minutes automatically
 - **Manual Check**: Click the 🔄 icon in the title bar
 - **Version Comparison**: Compares current version with version in `version.txt`
@@ -267,12 +267,12 @@ The app checks the **public repository** for updates using a simple version file
 ### Repository Structure
 
 ```
-centra-ai/              # Private development repo (this repo)
+Jorbella-ai/            # Private development repo (this repo)
 ├── Source code
 ├── installer_output/   # Build output (gitignored)
 └── publish-release.ps1 # Script to publish to public repo
 
-centra-ai-public/       # Public distribution repo
+Jorbella-ai-public/     # Public distribution repo
 ├── releases/           # Installer executables
 ├── version.txt         # Latest version number
 └── README.md           # Public documentation
@@ -418,7 +418,7 @@ This project is for personal and educational use.
 - **Theme consistency**: All UI elements now follow the selected theme
 - **Fixed tab buttons**: Settings tabs now use dynamic theme colors
 - **Better window dragging**: Settings window fully draggable from title bar
-- Added Centra theme preset
+- Added Jorbella theme preset
 - Added secret easter egg feature 👏
 
 ### Version 1.0.3 (2025-10-22)
